@@ -9,7 +9,7 @@ For more information on contributing to this repository visit [Contributing to a
 
 ## Typical usage scenario
  
-Embed an external website in a form
+Embed an external website in a page
 
 ## Features and limitations
 
