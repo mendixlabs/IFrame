@@ -18,7 +18,7 @@ AAAASUVORK5CYII=</icon>
     <property key="height" type="integer" defaultValue="400">
       <caption>Height</caption>
       <category>Appearance</category>
-      <description>Height of the viewer in pixels. Use '0' to determine the width automatically. This will use any remaining space.</description>
+      <description>Height of the viewer in pixels. Use '0' to determine the height automatically. This will use any remaining space.</description>
     </property>
 	<property key="width" type="integer" defaultValue="0">
       <caption>Width</caption>
@@ -36,14 +36,14 @@ AAAASUVORK5CYII=</icon>
 			<enumerationValue key="no">Never</enumerationValue>
 		</enumerationValues>
 	</property>
-	
+
 	<property key="name" type="attribute" isPath="optional" pathType="reference">
       <caption>URL Attribute</caption>
       <category>Data source</category>
       <description>The attribute that returns the URL of the IFrame.</description>
 	  <attributeTypes>
-		<attributeType name="String"/> 
-		<attributeType name="Integer"/> 
+		<attributeType name="String"/>
+		<attributeType name="Integer"/>
       </attributeTypes>
     </property>
 	<property key="prefix" type="string" defaultValue="" required="false">

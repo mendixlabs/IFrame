@@ -1,87 +1,75 @@
-/**
-	IFrame
-	========================
+define([
+    "dojo/_base/declare",
+    "mxui/widget/_WidgetBase",
+    "dijit/_TemplatedMixin",
 
-	@file      : IFrame.js
-	@version   : 2.1 (alpha)
-	@author    : Richard Edens
-	@date      : 8/11/2014
-	@copyright : Mendix
-	@license   : Please contact our sales department.
+    "dojo/dom-style",
+    "dojo/dom-attr",
+    "dojo/_base/lang",
 
-	Documentation
-	=============
-	This widget can be used to embed external websites in the client. 
-	
-	Open Issues
-	===========
+    "dojo/text!IFrame/widget/templates/IFrame.html"
+], function(declare, _WidgetBase, _TemplatedMixin, domStyle, domAttr, lang, widgetTemplate) {
+    "use strict";
 
-	File is best readable with tabwidth = 2;
-*/
-dojo.provide("IFrame.widget.IFrame");
+    return declare("IFrame.widget.IFrame", [_WidgetBase, _TemplatedMixin], {
 
-dojo.declare("IFrame.widget.IFrame", [ mxui.widget._WidgetBase, dijit._TemplatedMixin ],
-{
-    name   : '', 	//the attribute to edit
-    height : 0, //height, 0 = auto
-    width : 0, //height, 0 = auto
-    domNode : null,
-    iframe : null,
-    _contextObj : null,
-    _value : '',
-    scrolling : 'auto',
-    prefix : '',
-    templateString : dojo.cache('IFrame.widget', 'templates/IFrame.html'),
+        templateString: widgetTemplate,
 
-    update : function(obj, callback) {
-        'use strict';
+        name   : "", 	//the attribute to edit
+        height : 0, //height, 0 = auto
+        width : 0, //height, 0 = auto
+        scrolling : "auto",
+        prefix : "",
 
-        if(typeof obj === 'string'){
-            this._contextGuid = obj;
-            mx.data.get({
-                guids    : [this._contextGuid],
-                callback : dojo.hitch(this, function(objs) {
-                    this._contextObj = objs;
-                })
+        iframe : null,
+
+        _blankUrl : require.toUrl("IFrame/widget/styles/blank.html").split("?")[0],
+        _contextObj : null,
+        _value : null,
+
+        postCreate : function () {
+            logger.debug(this.id + ".postCreate");
+
+            domAttr.set(this.iframe, {
+                "scrolling" : this.scrolling,
+                src: this._blankUrl
             });
-        } else {
-            this._contextObj = obj;
-        }
 
-        if(this._contextObj !== null){
-            if (this._contextObj.get(this.name) === '') {
-                dojo.style(this.iframe, 'height', '0px');
+            domStyle.set(this.iframe, {
+                "backgroundColor" : "transparent",
+                "height": (this.height === 0) ? "auto" : this.height + "px",
+                "width" : (this.width === 0) ? "100%" : this.width + "px"
+            });
+        },
+
+        resize: function (box) {
+            logger.debug(this.id + ".resize");
+        },
+
+        update : function(obj, callback) {
+            logger.debug(this.id + ".update");
+            if (obj) {
+                this._contextObj = obj;
+                var val = this._contextObj.get(this.name);
+
+                if (val === "") {
+                    domStyle.set(this.domNode, "visibility", "hidden");
+                } else {
+                    domStyle.set(this.domNode, "visibility", "visible");
+                }
+
+                if (val !== this._value) {
+                    this._value = val;
+                    this.iframe.src = this.prefix + val;
+                }
             } else {
-                dojo.style(this.iframe, 'width', (this.width === 0) ? '100%' : this.width + 'px');
+                domAttr.set(this.iframe, "src", this._blankUrl);
+                domStyle.set(this.domNode, "visibility", "hidden");
             }
-            if (this._contextObj.get(this.name) !== this._value) {
-                this._value = this._contextObj.get(this.name);
-                this.iframe.src = this.prefix + this._contextObj.get(this.name);
-            }
+            mendix.lang.nullExec(callback);
         }
 
-        if(typeof callback !== 'undefined'){
-            callback();
-        }
-    },
-
-    postCreate : function(){
-        'use strict';
-
-        logger.debug(this.id + ".postCreate");
-        dojo.attr(this.iframe, {
-            'scrolling' : this.scrolling
-        });
-        dojo.style(this.iframe, {
-            'backgroundColor' : 'transparent',
-            'height': (this.height === 0) ? 'auto' : this.height + 'px',
-            'width' : (this.width === 0) ? '100%' : this.width + 'px'
-        });
-        //NOT for attribute widgets: this.actRendered();
-    },
-
-    uninitialize : function(){
-        'use strict';
-        logger.debug(this.id + ".uninitialize");
-    }
+    });
 });
+
+require(["IFrame/widget/IFrame"]);
