@@ -18,12 +18,12 @@ AAAASUVORK5CYII=</icon>
     <property key="height" type="integer" defaultValue="400">
       <caption>Height</caption>
       <category>Appearance</category>
-      <description>Height of the viewer in pixels. Use '0' to determine the height automatically. This will use any remaining space.</description>
+      <description>Height of the viewer in pixels. Use '0' to set it to 'auto''. Note: setting the height to auto usually does not properly work.</description>
     </property>
 	<property key="width" type="integer" defaultValue="0">
       <caption>Width</caption>
       <category>Appearance</category>
-      <description>Width of the viewer in pixels. Use '0' to determine the width automatically. This will use any remaining space.</description>
+      <description>Width of the viewer in pixels. Use 0 to set it to 100% of the width of the container</description>
     </property>
 	<property key="scrolling" type="enumeration" defaultValue="auto">
 		<caption>Scroll</caption>
