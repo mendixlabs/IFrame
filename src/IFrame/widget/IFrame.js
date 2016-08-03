@@ -56,11 +56,11 @@ define([
                     domStyle.set(this.domNode, "visibility", "hidden");
                 } else {
                     domStyle.set(this.domNode, "visibility", "visible");
-                }
 
-                if (val !== this._value) {
-                    this._value = val;
-                    this.iframe.src = this.prefix + val;
+                    if (val !== this._value) {
+                        this._value = val;
+                        this.iframe.src = this.prefix + val;
+                    }
                 }
             } else {
                 domAttr.set(this.iframe, "src", this._blankUrl);
@@ -68,7 +68,6 @@ define([
             }
             mendix.lang.nullExec(callback);
         }
-
     });
 });
 
