@@ -66,7 +66,10 @@ define([
                 domAttr.set(this.iframe, "src", this._blankUrl);
                 domStyle.set(this.domNode, "visibility", "hidden");
             }
-            mendix.lang.nullExec(callback);
+
+            if (callback) {
+                callback();
+            }
         }
     });
 });
